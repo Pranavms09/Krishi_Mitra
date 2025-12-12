@@ -1,0 +1,220 @@
+// ------- Hamburger Menu & Side Menu ---------
+const hamburger = document.getElementById("hamburger");
+const sideMenu = document.getElementById("sideMenu");
+const overlay = document.getElementById("overlay");
+
+function toggleSideMenu() {
+  hamburger.classList.toggle("active");
+  sideMenu.classList.toggle("active");
+  overlay.classList.toggle("active");
+}
+
+hamburger.addEventListener("click", toggleSideMenu);
+overlay.addEventListener("click", toggleSideMenu);
+
+// ------- Navigation functionality ---------
+function showSection(sectionId) {
+  // Hide all sections
+  document.querySelectorAll(".section").forEach((section) => {
+    section.classList.remove("active");
+  });
+
+  // Show selected section
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.classList.add("active");
+  }
+
+  // Close side menu if open
+  if (sideMenu.classList.contains("active")) {
+    toggleSideMenu();
+  }
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Add click handlers to main navigation links
+document.querySelectorAll(".main-nav a").forEach((item) => {
+  item.addEventListener("click", (e) => {
+    e.preventDefault();
+    const sectionId = item.getAttribute("data-section");
+    showSection(sectionId);
+  });
+});
+
+// Add click handler to brand name
+document.querySelector(".brand").addEventListener("click", (e) => {
+  e.preventDefault();
+  showSection("home");
+});
+
+// Add click handlers to side menu items
+document.querySelectorAll(".side-menu-item").forEach((item) => {
+  item.addEventListener("click", (e) => {
+    e.preventDefault();
+    const sectionId = item.getAttribute("data-section");
+    showSection(sectionId);
+  });
+});
+
+// Add click handler to CTA button
+document.querySelector(".cta-button").addEventListener("click", (e) => {
+  e.preventDefault();
+  const sectionId = document
+    .querySelector(".cta-button")
+    .getAttribute("data-section");
+  showSection(sectionId);
+});
+
+// ------- Dummy data for UI ---------
+const crops = ["Soybean", "Cotton", "Wheat", "Tur (Arhar)", "Sugarcane"];
+const markets = ["Pune", "Nagpur", "Nashik", "Kolhapur"];
+
+// Simple fake prices: crop + market map
+const prices = [
+  { crop: "Soybean", market: "Pune", mandi: 2450, buyer: 2520 },
+  { crop: "Soybean", market: "Nagpur", mandi: 2380, buyer: 2480 },
+  { crop: "Cotton", market: "Pune", mandi: 6850, buyer: 7020 },
+  { crop: "Cotton", market: "Nashik", mandi: 6720, buyer: 6900 },
+  { crop: "Wheat", market: "Pune", mandi: 2100, buyer: 2180 },
+  { crop: "Wheat", market: "Kolhapur", mandi: 2050, buyer: 2140 },
+  { crop: "Tur (Arhar)", market: "Nagpur", mandi: 9200, buyer: 9400 },
+  { crop: "Sugarcane", market: "Kolhapur", mandi: 3100, buyer: 3200 },
+];
+
+// ------- Helper to fill <select> options --------
+function fillSelectOptions(selectId, items) {
+  const sel = document.getElementById(selectId);
+  sel.innerHTML = "";
+  items.forEach((item) => {
+    const opt = document.createElement("option");
+    opt.value = item;
+    opt.textContent = item;
+    sel.appendChild(opt);
+  });
+}
+
+// ------- Render prices ----------
+function renderPrices() {
+  const crop = document.getElementById("cropSelect").value;
+  const market = document.getElementById("marketSelect").value;
+  const container = document.getElementById("priceList");
+  container.innerHTML = "";
+
+  const headerRow = document.createElement("div");
+  headerRow.className = "price-row header";
+  headerRow.innerHTML =
+    "<span>Crop / Market</span><span>Mandi (₹)</span><span>Buyer (₹)</span>";
+  container.appendChild(headerRow);
+
+  const filtered = prices.filter(
+    (p) =>
+      (crop ? p.crop === crop : true) && (market ? p.market === market : true)
+  );
+
+  if (filtered.length === 0) {
+    const row = document.createElement("div");
+    row.className = "price-row";
+    row.innerHTML = "<span>No data</span><span>-</span><span>-</span>";
+    container.appendChild(row);
+    return;
+  }
+
+  filtered.forEach((p) => {
+    const row = document.createElement("div");
+    row.className = "price-row";
+    row.innerHTML =
+      `<span>${p.crop} – ${p.market}</span>` +
+      `<span>₹${p.mandi}</span>` +
+      `<span>₹${p.buyer}</span>`;
+    container.appendChild(row);
+  });
+}
+
+// ------- Save alert (only simulated) ----------
+function saveAlert() {
+  const crop = document.getElementById("alertCrop").value;
+  const type = document.getElementById("alertType").value;
+  const price = document.getElementById("alertPrice").value;
+  const output = document.getElementById("alertSavedText");
+
+  if (!price) {
+    output.textContent = "Please enter target price.";
+    output.style.color = "#b91c1c";
+    return;
+  }
+
+  const typeText = type === "above" ? "goes above" : "goes below";
+  output.style.color = "#047857";
+  output.textContent = `Alert saved: Notify when ${crop} price ${typeText} ₹${price}/quintal.`;
+}
+
+// ------- Profit calculator ----------
+function calculateProfit() {
+  const crop = document.getElementById("pcCrop").value;
+  const qty = parseFloat(document.getElementById("pcQuantity").value || "0");
+  const price = parseFloat(document.getElementById("pcPrice").value || "0");
+  const box = document.getElementById("pcResult");
+
+  if (!qty || !price) {
+    box.style.display = "block";
+    box.textContent = "Please enter both quantity and price.";
+    return;
+  }
+
+  const revenue = qty * price;
+  box.style.display = "block";
+  box.innerHTML =
+    `Estimated income for <b>${crop}</b><br>` +
+    `${qty} quintal × ₹${price.toFixed(0)} = <b>₹${revenue.toFixed(0)}</b>`;
+}
+
+// ------- Language change (UI demo only) --------
+function handleLanguageChange() {
+  const lang = document.getElementById("languageSelect").value;
+  const weatherLine = document.getElementById("weatherLine");
+
+  // just demo text; real app would use i18n
+  if (lang === "mr") {
+    weatherLine.textContent = "पुणे: पुढील २ दिवसांत हलका पाऊस, २९°C / २१°C.";
+  } else if (lang === "hi") {
+    weatherLine.textContent =
+      "पुणे: अगले 2 दिनों में हल्की बारिश, 29°C / 21°C.";
+  } else {
+    weatherLine.textContent =
+      "Pune: Light rain expected in 2 days, 29°C / 21°C.";
+  }
+}
+
+// ------- Init ----------
+fillSelectOptions("cropSelect", crops);
+fillSelectOptions("marketSelect", markets);
+fillSelectOptions("alertCrop", crops);
+fillSelectOptions("pcCrop", crops);
+
+renderPrices();
+
+document.getElementById("cropSelect").addEventListener("change", renderPrices);
+document
+  .getElementById("marketSelect")
+  .addEventListener("change", renderPrices);
+document.getElementById("saveAlertBtn").addEventListener("click", saveAlert);
+document.getElementById("pcCalcBtn").addEventListener("click", calculateProfit);
+document
+  .getElementById("languageSelect")
+  .addEventListener("change", handleLanguageChange);
+
+// ------- Login handler ----------
+document.getElementById("loginBtn").addEventListener("click", () => {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  if (!email || !password) {
+    alert("Please enter both email and password.");
+    return;
+  }
+
+  // Demo login - in real app, this would connect to backend
+  alert("Login functionality - connect to your backend API");
+});

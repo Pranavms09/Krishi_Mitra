@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Krishi Mitra - Smart Crop Price Alert</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- Overlay for side menu -->
+      <div class="overlay" id="overlay"></div>
+
+      <!-- Side Menu -->
+      <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+          <h3>More Features</h3>
+        </div>
+        <a href="#" class="side-menu-item" data-section="alerts"
+          >🔔 Smart Price Alerts</a
+        >
+        <a href="#" class="side-menu-item" data-section="calculator"
+          >💰 Profit Calculator</a
+        >
+        <a href="#" class="side-menu-item" data-section="weather"
+          >⛅ Weather Insights</a
+        >
+        <a href="#" class="side-menu-item" data-section="assistant"
+          >🤖 AI Voice Assistant</a
+        >
+      </div>
+
+      <!-- Top Navigation Bar -->
+      <nav class="top-nav">
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <a href="#" class="brand">Krishi_Mitra</a>
+        <div class="main-nav">
+          <a href="#" data-section="market-prices">Market Prices</a>
+          <a href="#" data-section="demand">Crop Demand</a>
+          <a href="#" data-section="schemes">Schemes</a>
+          <a href="#" data-section="login">Login</a>
+        </div>
+        <button class="lang-btn" id="langBtn">
+          <span>🌐</span>
+          <select id="languageSelect">
+            <option value="en">English</option>
+            <option value="mr">मराठी</option>
+            <option value="hi">हिन्दी</option>
+          </select>
+        </button>
+      </nav>
+
+      <main>
+        <!-- Homepage Section -->
+        <section id="home" class="section active">
+          <div class="hero-section">
+            <h1 class="tagline">Empower Your Farming<br />Journey with Us!</h1>
+            <p>
+              Get real-time market prices, smart alerts, weather insights, and
+              AI-powered assistance. Make informed decisions and maximize your
+              crop profitability with Krishi Mitra.
+            </p>
+            <button class="cta-button" data-section="market-prices">
+              Get Started
+            </button>
+          </div>
+        </section>
+
+        <!-- Market Prices Section -->
+        <section id="market-prices" class="section">
+          <div class="card">
+            <h2>📈 Market Prices</h2>
+            <p class="muted">
+              Daily updated crop prices from markets & buyers. (Dummy data for
+              UI)
+            </p>
+
+            <div class="field-row" style="margin-top: 0.6rem">
+              <div>
+                <label for="cropSelect">Crop</label>
+                <select id="cropSelect"></select>
+              </div>
+              <div>
+                <label for="marketSelect">Market</label>
+                <select id="marketSelect"></select>
+              </div>
+            </div>
+
+            <div class="price-list" id="priceList"></div>
+          </div>
+        </section>
+
+        <!-- Smart Alerts Section -->
+        <section id="alerts" class="section">
+          <div class="card">
+            <h2>🔔 Smart Price Alert</h2>
+            <p class="muted">
+              Get notified when price goes above or below your target.
+            </p>
+
+            <div class="field-row" style="margin-top: 0.6rem">
+              <div>
+                <label for="alertCrop">Crop</label>
+                <select id="alertCrop"></select>
+              </div>
+              <div>
+                <label for="alertType">Alert Type</label>
+                <select id="alertType">
+                  <option value="above">Price goes above</option>
+                  <option value="below">Price goes below</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="margin-top: 0.6rem">
+              <label for="alertPrice">Target Price (₹ / quintal)</label>
+              <input
+                id="alertPrice"
+                type="number"
+                min="0"
+                placeholder="e.g. 2500"
+              />
+            </div>
+
+            <button id="saveAlertBtn">Save Alert</button>
+            <p id="alertSavedText" class="muted"></p>
+          </div>
+        </section>
+
+        <!-- Profit Calculator Section -->
+        <section id="calculator" class="section">
+          <div class="card">
+            <h2>💰 Profit Calculator</h2>
+
+            <div class="field-row" style="margin-top: 0.6rem">
+              <div>
+                <label for="pcCrop">Crop</label>
+                <select id="pcCrop"></select>
+              </div>
+              <div>
+                <label for="pcQuantity">Quantity (quintal)</label>
+                <input
+                  id="pcQuantity"
+                  type="number"
+                  placeholder="e.g. 30"
+                  min="0"
+                />
+              </div>
+            </div>
+
+            <div style="margin-top: 0.6rem">
+              <label for="pcPrice">Expected Selling Price (₹ / quintal)</label>
+              <input
+                id="pcPrice"
+                type="number"
+                placeholder="e.g. 2400"
+                min="0"
+              />
+            </div>
+
+            <button id="pcCalcBtn">Calculate Profit</button>
+            <div id="pcResult" class="result-box" style="display: none"></div>
+          </div>
+        </section>
+
+        <!-- Weather Insights Section -->
+        <section id="weather" class="section">
+          <div class="card">
+            <h2>⛅ Weather & Price Insight</h2>
+            <p class="muted">
+              Example of how insights can look (static dummy data).
+            </p>
+
+            <p style="margin-top: 0.5rem">
+              <span class="highlight" id="weatherLine">
+                Pune: Light rain expected in 2 days, 29°C / 21°C.
+              </span>
+            </p>
+            <p class="muted" style="margin-top: 0.3rem">
+              For Soybean, prices usually increase by 3–5% during rainy weeks
+              due to lower supply. Consider storing if you can.
+            </p>
+
+            <div class="badge-row">
+              <span class="badge">Rainfall impact</span>
+              <span class="badge">Storage suggestion</span>
+              <span class="badge">Demand trend</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Crop Demand Section -->
+        <section id="demand" class="section">
+          <div class="card">
+            <h2>📊 Crop Demand Estimation</h2>
+            <p class="muted">
+              AI-style hint to help choose next crop (mock logic).
+            </p>
+
+            <div style="margin-top: 0.5rem">
+              <p id="demandText">
+                🌾 <span class="highlight">Tur (Arhar)</span> is expected to be
+                in high demand next season because of lower sowing this year.
+              </p>
+              <p class="muted" style="margin-top: 0.35rem">
+                Early planning on high-demand crops can improve profitability.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Schemes Section -->
+        <section id="schemes" class="section">
+          <div class="card">
+            <h2>🏛️ Live Schemes & Yojanas</h2>
+            <ul class="scheme-list" style="margin-top: 0.4rem">
+              <li>
+                <span>PM-KISAN:</span> Direct income support for eligible
+                farmers.
+              </li>
+              <li>
+                <span>PMFBY:</span> Crop insurance scheme for major crops.
+              </li>
+              <li>
+                <span>Soil Health Card:</span> Get soil testing & fertilizer
+                advice.
+              </li>
+            </ul>
+            <p class="muted" style="margin-top: 0.4rem">
+              In real app this section will be auto-updated from government
+              portals.
+            </p>
+          </div>
+        </section>
+
+        <!-- AI Assistant Section -->
+        <section id="assistant" class="section">
+          <div class="card">
+            <h2>🤖 Voice Assistant & AI Help</h2>
+            <p class="muted">
+              Ask in Marathi or Hindi for guidance on modern techniques,
+              fertilizers, pest control, etc.
+            </p>
+
+            <div class="voice-chip">🎙️ Tap to speak (UI only)</div>
+
+            <p class="muted" style="margin-top: 0.45rem">Example AI tip:</p>
+            <div class="result-box" style="margin-top: 0.3rem">
+              "Switch to drip irrigation for sugarcane. It can save up to 30–40%
+              water and improve yield."
+            </div>
+          </div>
+        </section>
+
+        <!-- Login Section -->
+        <section id="login" class="section">
+          <div class="card" style="max-width: 500px; margin: 0 auto">
+            <h2>🔐 Login to Krishi Mitra</h2>
+            <p class="muted">
+              Access your personalized dashboard and manage your alerts.
+            </p>
+
+            <div style="margin-top: 1.5rem">
+              <label for="loginEmail">Email or Phone</label>
+              <input
+                id="loginEmail"
+                type="text"
+                placeholder="Enter your email or phone number"
+                style="margin-top: 0.5rem"
+              />
+            </div>
+
+            <div style="margin-top: 1rem">
+              <label for="loginPassword">Password</label>
+              <input
+                id="loginPassword"
+                type="password"
+                placeholder="Enter your password"
+                style="margin-top: 0.5rem"
+              />
+            </div>
+
+            <button id="loginBtn" style="width: 100%; margin-top: 1.5rem">
+              Login
+            </button>
+            <p class="muted" style="margin-top: 1rem; text-align: center">
+              Don't have an account?
+              <a href="#" style="color: #fff; text-decoration: none">Sign up</a>
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="techno.js"></script>
+  </body>
+</html>
