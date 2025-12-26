@@ -194,22 +194,27 @@
 
         <!-- Weather Insights Section -->
         <section id="weather" class="section">
-          <div class="card">
+          <div class="card weather-card">
             <h2>⛅ Weather & Price Insight</h2>
-            <p class="muted">
-              Example of how insights can look (static dummy data).
-            </p>
-
-            <p style="margin-top: 0.5rem">
-              <span class="highlight" id="weatherLine">
-                Pune: Light rain expected in 2 days, 29°C / 21°C.
-              </span>
-            </p>
-            <p class="muted" style="margin-top: 0.3rem">
-              For Soybean, prices usually increase by 3–5% during rainy weeks
-              due to lower supply. Consider storing if you can.
-            </p>
-
+            <div class="weather-main-row">
+              <div class="weather-icon-box">
+                <span class="weather-icon">🌧️</span>
+                <div class="weather-temp">29°C / 21°C</div>
+              </div>
+              <div class="weather-info-box">
+                <div class="weather-location">Pune</div>
+                <div class="weather-status">Light rain expected in 2 days</div>
+              </div>
+            </div>
+            <div class="weather-insight-row">
+              <span class="weather-insight"
+                >Soybean prices usually increase by <b>3–5%</b> during rainy
+                weeks due to lower supply.</span
+              >
+              <span class="weather-insight"
+                >Consider storing if you can for better profit.</span
+              >
+            </div>
             <div class="badge-row">
               <span class="badge">Rainfall impact</span>
               <span class="badge">Storage suggestion</span>
