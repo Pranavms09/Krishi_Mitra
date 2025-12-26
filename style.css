@@ -1,3 +1,45 @@
+.demand-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+.demand-list li {
+  background: #f6fef7;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.07);
+  padding: 0.75rem 1.1rem;
+  color: #222;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  transition: box-shadow 0.2s;
+}
+.demand-list li:hover {
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.13);
+}
+.demand-list .highlight {
+  color: #176a2b;
+  font-weight: 700;
+  font-size: 1.08rem;
+}
+/* Demand list crop description color for visibility */
+.demand-list li {
+  color: #222;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+/* Scheme description color for visibility */
+.scheme-list span {
+  color: #176a2b;
+  font-weight: 600;
+}
+.scheme-list li {
+  color: #222;
+}
 .price-row,
 .price-row.header {
   color: #111 !important;

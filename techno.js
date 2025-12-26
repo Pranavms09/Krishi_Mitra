@@ -305,6 +305,15 @@ document
   .getElementById("languageSelect")
   .addEventListener("change", handleLanguageChange);
 
+// Add click handler for mobile login button
+const mobileLoginBtn = document.querySelector(".mobile-login-btn");
+if (mobileLoginBtn) {
+  mobileLoginBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    showSection("login");
+  });
+}
+
 // ------- Login handler ----------
 document.getElementById("loginBtn").addEventListener("click", () => {
   const email = document.getElementById("loginEmail").value;
