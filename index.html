@@ -15,6 +15,29 @@
       <div class="side-menu" id="sideMenu">
         <div class="side-menu-header">
           <h3>More Features</h3>
+          <button
+            class="lang-btn side-lang-btn"
+            id="sideLangBtn"
+            style="margin-top: 1rem"
+          >
+            <span>🌐</span>
+            <select id="sideLanguageSelect">
+              <option value="en">English</option>
+              <option value="mr">मराठी</option>
+              <option value="hi">हिन्दी</option>
+            </select>
+          </button>
+        </div>
+        <div class="mobile-shortcuts">
+          <a href="#" class="side-menu-item" data-section="market-prices"
+            >📈 Market Prices</a
+          >
+          <a href="#" class="side-menu-item" data-section="demand"
+            >🌾 Crop Demand</a
+          >
+          <a href="#" class="side-menu-item" data-section="schemes"
+            >🏷️ Schemes</a
+          >
         </div>
         <a href="#" class="side-menu-item" data-section="alerts"
           >🔔 Smart Price Alerts</a
@@ -38,6 +61,8 @@
           <span></span>
         </div>
         <a href="#" class="brand">Krishi_Mitra</a>
+        <a href="#" class="mobile-login-btn" data-section="login">Login</a>
+        <div class="spacer"></div>
         <div class="main-nav">
           <a href="#" data-section="market-prices">Market Prices</a>
           <a href="#" data-section="demand">Crop Demand</a>
@@ -246,12 +271,28 @@
               fertilizers, pest control, etc.
             </p>
 
-            <div class="voice-chip">🎙️ Tap to speak (UI only)</div>
+            <div class="voice-chip">🎙️ Tap to speak</div>
 
-            <p class="muted" style="margin-top: 0.45rem">Example AI tip:</p>
-            <div class="result-box" style="margin-top: 0.3rem">
-              "Switch to drip irrigation for sugarcane. It can save up to 30–40%
-              water and improve yield."
+            <div class="chatbot-window" id="chatbotWindow">
+              <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chatbot-message bot">
+                  Hello! How can I help you today?
+                </div>
+              </div>
+              <form
+                class="chatbot-input-row"
+                id="chatbotForm"
+                autocomplete="off"
+              >
+                <input
+                  type="text"
+                  id="chatbotInput"
+                  class="chatbot-input"
+                  placeholder="Type your question..."
+                  autocomplete="off"
+                />
+                <button type="submit" class="chatbot-send">Send</button>
+              </form>
             </div>
           </div>
         </section>
@@ -289,7 +330,9 @@
             </button>
             <p class="muted" style="margin-top: 1rem; text-align: center">
               Don't have an account?
-              <a href="#" style="color: #fff; text-decoration: none">Sign up</a>
+              <a href="#" style="color: #0a01f4; text-decoration: none"
+                >Sign up</a
+              >
             </p>
           </div>
         </section>

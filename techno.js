@@ -1,3 +1,72 @@
+// ------- Chatbot Logic for AI Assistant Section ---------
+const chatbotForm = document.getElementById("chatbotForm");
+const chatbotInput = document.getElementById("chatbotInput");
+const chatbotMessages = document.getElementById("chatbotMessages");
+
+async function sendMessageToLLM(message) {
+  // OpenAI API endpoint for chat (GPT-3.5/4)
+  const endpoint = "https://api.openai.com/v1/chat/completions";
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${LLM_API_KEY}`,
+  };
+  const body = {
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a helpful agricultural assistant for Indian farmers. Answer in simple language. Support Hindi and Marathi if user uses them.",
+      },
+      { role: "user", content: message },
+    ],
+    max_tokens: 512,
+    temperature: 0.7,
+  };
+  // Call backend server instead of OpenAI directly
+  try {
+    const res = await fetch("http://localhost:3001/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message }),
+    });
+    if (!res.ok) throw new Error("API error");
+    const data = await res.json();
+    return data.reply?.trim() || "No response.";
+  } catch (err) {
+    return "Sorry, I couldn't reach the AI service.";
+  }
+}
+
+function appendChatMessage(text, sender = "user") {
+  const msgDiv = document.createElement("div");
+  msgDiv.className = `chatbot-message ${sender}`;
+  msgDiv.textContent = text;
+  chatbotMessages.appendChild(msgDiv);
+  chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+if (chatbotForm && chatbotInput && chatbotMessages) {
+  chatbotForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const userMsg = chatbotInput.value.trim();
+    if (!userMsg) return;
+    appendChatMessage(userMsg, "user");
+    chatbotInput.value = "";
+    appendChatMessage("...", "bot");
+    const botReply = await sendMessageToLLM(userMsg);
+    // Remove the loading '...' message
+    const loadingMsg = chatbotMessages.querySelector(
+      ".chatbot-message.bot:last-child"
+    );
+    if (loadingMsg && loadingMsg.textContent === "...")
+      chatbotMessages.removeChild(loadingMsg);
+    appendChatMessage(botReply, "bot");
+  });
+}
+// ------- LLM API Key (DEMO ONLY: Do not expose in production) ---------
+const LLM_API_KEY =
+  "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";
 // ------- Hamburger Menu & Side Menu ---------
 const hamburger = document.getElementById("hamburger");
 const sideMenu = document.getElementById("sideMenu");
@@ -68,7 +137,17 @@ document.querySelector(".cta-button").addEventListener("click", (e) => {
 });
 
 // ------- Dummy data for UI ---------
-const crops = ["Soybean", "Cotton", "Wheat", "Tur (Arhar)", "Sugarcane"];
+const crops = [
+  "Soybean",
+  "Cotton",
+  "Wheat",
+  "Tur (Arhar)",
+  "Sugarcane",
+  "Maize",
+  "Barley",
+  "Gram",
+  "Paddy",
+];
 const markets = ["Pune", "Nagpur", "Nashik", "Kolhapur"];
 
 // Simple fake prices: crop + market map
