@@ -6,7 +6,7 @@
 .mobile-login-btn {
   display: none;
   margin-left: auto;
-  background: #9d4edd;
+  background: linear-gradient(180deg, #c6ff00 0%, #4caf50 100%);
   color: #fff;
   border-radius: 20px;
   padding: 0.5rem 1.2rem;
@@ -16,7 +16,7 @@
   transition: background 0.2s;
 }
 .mobile-login-btn:hover {
-  background: #7b2cbf;
+  background: linear-gradient(180deg, #d4ff4f 0%, #388e3c 100%);
 }
 @media (max-width: 768px) {
   .mobile-login-btn {
@@ -287,7 +287,7 @@ body {
 
 /* Language Button */
 .lang-btn {
-  background: #9d4edd;
+  background: linear-gradient(180deg, #c6ff00 0%, #4caf50 100%);
   color: #ffffff;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -302,9 +302,9 @@ body {
 }
 
 .lang-btn:hover {
-  background: #7b2cbf;
+  background: linear-gradient(180deg, #d4ff4f 0%, #388e3c 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(157, 78, 221, 0.4);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.25);
 }
 
 @media (max-width: 768px) {
@@ -454,22 +454,22 @@ main {
 }
 
 .cta-button {
-  background: #9d4edd;
-  color: #ffffff;
+  background: linear-gradient(180deg, #c6ff00 0%, #4caf50 100%);
+  color: #fff;
   border: none;
   padding: 1.25rem 3rem;
   border-radius: 30px;
   font-weight: 700;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(157, 78, 221, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 2, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(76, 175, 80, 0.25);
 }
 
 .cta-button:hover {
-  background: #7b2cbf;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 30px rgba(157, 78, 221, 0.6);
+  background: linear-gradient(180deg, #d4ff4f 0%, #388e3c 100%);
+  transform: translateY(-7px);
+  box-shadow: 0 10px 32px rgba(76, 175, 80, 0.35);
 }
 
 @media (max-width: 768px) {
