@@ -138,50 +138,43 @@ document.querySelector(".cta-button").addEventListener("click", (e) => {
 
 // ------- Dummy data for UI ---------
 const crops = [
+  "Wheat",
   "Soybean",
   "Cotton",
-  "Wheat",
   "Tur (Arhar)",
   "Sugarcane",
-  "Maize",
-  "Barley",
-  "Gram",
-  "Paddy",
 ];
 const markets = ["Pune", "Nagpur", "Nashik", "Kolhapur"];
 
 // Simple fake prices: crop + market map
 const prices = [
-  { crop: "Wheat", market: "Pune", mandi: 4700, buyer: 4950 },
-  { crop: "Wheat", market: "Nashik", mandi: 4500, buyer: 4800 },
-  { crop: "Wheat", market: "Nagpur", mandi: 4550, buyer: 4850 },
-  { crop: "Wheat", market: "Kolhapur", mandi: 4600, buyer: 4900 },
+  { crop: "Soybean", market: "Pune", mandi: 2450, buyer: 2520 },
+  { crop: "Soybean", market: "Nagpur", mandi: 2380, buyer: 2480 },
+  { crop: "Soybean", market: "Nashik", mandi: 2380, buyer: 2480 },
+  { crop: "Soybean", market: "Kolhapur", mandi: 2380, buyer: 2480 },
 
-  { crop: "Maize", market: "Pune", mandi: 2600, buyer: 2800 },
-  { crop: "Maize", market: "Nashik", mandi: 2450, buyer: 2650 },
-  { crop: "Maize", market: "Nagpur", mandi: 2500, buyer: 2700 },
-  { crop: "Maize", market: "Kolhapur", mandi: 2550, buyer: 2750 },
 
-  { crop: "Jowar", market: "Pune", mandi: 3000, buyer: 3300 },
-  { crop: "Jowar", market: "Nashik", mandi: 3100, buyer: 3400 },
-  { crop: "Jowar", market: "Nagpur", mandi: 2900, buyer: 3200 },
-  { crop: "Jowar", market: "Kolhapur", mandi: 3050, buyer: 3350 },
+  { crop: "Cotton", market: "Pune", mandi: 6850, buyer: 7020 },
+  { crop: "Cotton", market: "Nagpur", mandi: 6720, buyer: 6900 },
+  { crop: "Cotton", market: "Nashik", mandi: 6720, buyer: 6900 },
+  { crop: "Cotton", market: "Kolhapur", mandi: 6720, buyer: 6900 },
 
-  { crop: "Bajra", market: "Pune", mandi: 2400, buyer: 2700 },
-  { crop: "Bajra", market: "Nashik", mandi: 2600, buyer: 2900 },
-  { crop: "Bajra", market: "Nagpur", mandi: 2350, buyer: 2650 },
-  { crop: "Bajra", market: "Kolhapur", mandi: 2500, buyer: 2800 },
+  { crop: "Wheat", market: "Pune", mandi: 2100, buyer: 2180 },
+  { crop: "Wheat", market: "Nagpur", mandi: 2050, buyer: 2140 },
+  { crop: "Wheat", market: "Nashik", mandi: 2050, buyer: 2140 },
+  { crop: "Wheat", market: "Kolhapur", mandi: 2050, buyer: 2140 },
 
-  { crop: "Barley", market: "Pune", mandi: 1800, buyer: 2000 },
-  { crop: "Barley", market: "Nashik", mandi: 1750, buyer: 1950 },
-  { crop: "Barley", market: "Nagpur", mandi: 1700, buyer: 1900 },
-  { crop: "Barley", market: "Kolhapur", mandi: 1720, buyer: 1920 },
+  { crop: "Tur (Arhar)", market: "Pune", mandi: 9200, buyer: 9400 },
+  { crop: "Tur (Arhar)", market: "Nagpur", mandi: 9200, buyer: 9400 },
+  { crop: "Tur (Arhar)", market: "Nashik", mandi: 9200, buyer: 9400 },
+  { crop: "Tur (Arhar)", market: "Kolhapur", mandi: 9200, buyer: 9400 },
 
-  { crop: "Gram (Chana)", market: "Pune", mandi: 5400, buyer: 5700 },
-  { crop: "Gram (Chana)", market: "Nashik", mandi: 5200, buyer: 5500 },
-  { crop: "Gram (Chana)", market: "Nagpur", mandi: 5300, buyer: 5600 },
-  { crop: "Gram (Chana)", market: "Kolhapur", mandi: 5250, buyer: 5550 },
+  { crop: "Sugarcane", market: "Pune", mandi: 3100, buyer: 3200 },
+  { crop: "Sugarcane", market: "Nagpur", mandi: 3100, buyer: 3200 },
+  { crop: "Sugarcane", market: "Nashik", mandi: 3100, buyer: 3200 },
+  { crop: "Sugarcane", market: "Kolhapur", mandi: 3100, buyer: 3200 },
 ];
+
 
 // ------- Helper to fill <select> options --------
 function fillSelectOptions(selectId, items) {
@@ -327,3 +320,4 @@ document.getElementById("loginBtn").addEventListener("click", () => {
   // Demo login - in real app, this would connect to backend
   alert("Login functionality - connect to your backend API");
 });
+
