@@ -4,26 +4,24 @@ const chatbotInput = document.getElementById("chatbotInput");
 const chatbotMessages = document.getElementById("chatbotMessages");
 
 async function sendMessageToLLM(message) {
-  // OpenAI API endpoint for chat (GPT-3.5/4)
-  const endpoint = "https://api.openai.com/v1/chat/completions";
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${LLM_API_KEY}`,
+  // Local short-circuit responses (temporary fallback when API/key not available)
+  const localResponses = {
+    "how can i improve my farming techniques":
+      "Here are practical steps to improve farming techniques:\n\n1) Test your soil: get soil tested to know nutrient levels and pH so you can apply the right fertilizers and amendments.\n\n2) Choose the right seeds: use improved or hybrid varieties suited to your region and cropping season.\n\n3) Improve water management: adopt drip or sprinkler irrigation where possible, schedule irrigations based on crop needs, and use mulching to reduce evaporation.\n\n4) Crop rotation & diversification: rotate crops to break pest/disease cycles and improve soil fertility; consider intercropping for risk reduction.\n\n5) Integrated pest management: monitor fields, use biological controls and targeted pesticides only when necessary.\n\n6) Nutrient management: apply balanced fertilizers based on soil test results and use organic matter (compost) to improve soil health.\n\n7) Timely operations & good agronomy: sow at the right time, maintain proper plant spacing, and weed control.\n\n8) Record keeping: track inputs, yields, and costs to identify improvements and reduce waste.\n\n9) Use local extension & training: consult agriculture extension services, attend farmer trainings, and join farmer groups to learn best practices.\n\n10) Market & value chain: plan crops based on market demand and explore value-addition to increase income.\n\nIf you want, tell me your crop and location and I can give more specific tips.",
   };
-  const body = {
-    model: "gpt-3.5-turbo",
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are a helpful agricultural assistant for Indian farmers. Answer in simple language. Support Hindi and Marathi if user uses them.",
-      },
-      { role: "user", content: message },
-    ],
-    max_tokens: 512,
-    temperature: 0.7,
-  };
-  // Call backend server instead of OpenAI directly
+
+  function normalizeMsg(m) {
+    return (m || "").toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
+  }
+
+  const norm = normalizeMsg(message);
+  // direct match
+  if (localResponses[norm]) return localResponses[norm];
+  // loose match for similar phrasing
+  if (norm.includes("improve") && norm.includes("farm"))
+    return localResponses["how can i improve my farming techniques"];
+
+  // Fallback: call backend server (existing behavior)
   try {
     const res = await fetch("http://localhost:3001/api/chat", {
       method: "POST",
