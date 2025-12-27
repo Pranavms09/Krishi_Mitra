@@ -84,6 +84,7 @@
         <section id="home" class="section active">
           <div class="hero-section">
             <h1 class="tagline">Empower Your Farming<br />Journey with Us!</h1>
+            <div id="homeDateTime" class="home-datetime" style="margin-top:0.6rem; color:#374151">Loading date & time...</div>
             <p>
               Get real-time market prices, smart alerts, weather insights, and
               AI-powered assistance. Make informed decisions and maximize your
@@ -214,6 +215,10 @@
               <span class="weather-insight"
                 >Consider storing if you can for better profit.</span
               >
+            </div>
+            <div class="weather-search-row" style="margin-top: 0.8rem; display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+              <input id="cityWeather" type="text" placeholder="Enter city name (e.g. Pune)" style="padding:0.5rem;" />
+              <button id="cityWeatherBtn">Search</button>
             </div>
             <div class="badge-row">
               <span class="badge">Rainfall impact</span>
