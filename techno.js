@@ -269,14 +269,76 @@ function handleLanguageChange() {
   const weatherLine = document.getElementById("weatherLine");
 
   // just demo text; real app would use i18n
+  if (!weatherLine) return;
   if (lang === "mr") {
     weatherLine.textContent = "पुणे: पुढील २ दिवसांत हलका पाऊस, २९°C / २१°C.";
   } else if (lang === "hi") {
-    weatherLine.textContent =
-      "पुणे: अगले 2 दिनों में हल्की बारिश, 29°C / 21°C.";
+    weatherLine.textContent = "पुणे: अगले 2 दिनों में हल्की बारिश, 29°C / 21°C.";
   } else {
-    weatherLine.textContent =
-      "Pune: Light rain expected in 2 days, 29°C / 21°C.";
+    weatherLine.textContent = "Pune: Light rain expected in 2 days, 29°C / 21°C.";
+  }
+}
+
+// ------- OpenWeatherMap integration -------
+const OPENWEATHER_API_KEY = "b565af6352c29f6a81e9ca21006f66d1";
+// Crop price API key (replace with your real key)
+const CROP_PRICE_API_KEY = "REPLACE_WITH_YOUR_CROP_PRICE_API_KEY";
+
+// Helper to allow user-provided API key (input id: openWeatherApiKey) with localStorage fallback
+function getOpenWeatherApiKey() {
+  const input = document.getElementById("openWeatherApiKey");
+  if (input && input.value && input.value.trim()) return input.value.trim();
+  const stored = localStorage.getItem("openWeatherApiKey");
+  if (stored) return stored;
+  return OPENWEATHER_API_KEY;
+}
+
+function setOpenWeatherApiKey(val) {
+  if (!val) return;
+  localStorage.setItem("openWeatherApiKey", val);
+  const input = document.getElementById("openWeatherApiKey");
+  if (input) input.value = val;
+}
+
+// If an API key input exists on the page, populate it from localStorage and save on change
+const apiKeyInput = document.getElementById("openWeatherApiKey");
+if (apiKeyInput) {
+  apiKeyInput.value = localStorage.getItem("openWeatherApiKey") || "";
+  apiKeyInput.addEventListener("change", (e) => {
+    setOpenWeatherApiKey(e.target.value.trim());
+  });
+}
+
+async function updateWeather(city = "Pune") {
+  const tempElem = document.querySelector(".weather-temp");
+  const locElem = document.querySelector(".weather-location");
+  const statusElem = document.querySelector(".weather-status");
+
+  if (!tempElem || !locElem || !statusElem) return;
+
+  statusElem.textContent = "Loading...";
+
+  try {
+    const key = getOpenWeatherApiKey();
+    const res = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
+        city
+      )}&appid=${key}&units=metric`
+    );
+    if (!res.ok) throw new Error("weather API error");
+    const data = await res.json();
+
+    const t = Math.round(data.main.temp);
+    const tmin = Math.round(data.main.temp_min);
+    const tmax = Math.round(data.main.temp_max);
+
+    tempElem.textContent = `${tmax}°C / ${tmin}°C`;
+    locElem.textContent = `${data.name}${data.sys && data.sys.country ? ", " + data.sys.country : ""}`;
+    statusElem.textContent = `${data.weather && data.weather[0] ? data.weather[0].description : ""} • Feels like ${Math.round(
+      data.main.feels_like
+    )}°C`;
+  } catch (err) {
+    statusElem.textContent = "Unable to fetch weather.";
   }
 }
 
@@ -297,6 +359,71 @@ document.getElementById("pcCalcBtn").addEventListener("click", calculateProfit);
 document
   .getElementById("languageSelect")
   .addEventListener("change", handleLanguageChange);
+
+// Weather button wiring (if present)
+const cityBtn = document.getElementById("cityWeatherBtn");
+if (cityBtn) {
+  cityBtn.addEventListener("click", async () => {
+    const cityInput = document.getElementById("cityWeather");
+    const city = cityInput && cityInput.value ? cityInput.value.trim() : "Pune";
+    try {
+      const API_key = getOpenWeatherApiKey();
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
+          city
+        )}&appid=${API_key}&units=metric`
+      );
+      if (!response.ok) throw new Error("weather API error");
+      const data = await response.json();
+
+      const temp = data.main && typeof data.main.temp !== "undefined" ? data.main.temp : null;
+      const tempElem = document.querySelector(".weather-temp");
+      const locElem = document.querySelector(".weather-location");
+      const statusElem = document.querySelector(".weather-status");
+
+      if (tempElem) tempElem.textContent = `${temp}°C`;
+      if (locElem) locElem.textContent = data.name || city;
+      if (statusElem)
+        statusElem.textContent =
+          data.weather && data.weather[0]
+            ? `${data.weather[0].description} • Feels like ${Math.round(
+                data.main.feels_like
+              )}°C`
+            : "";
+    } catch (err) {
+      const statusElem = document.querySelector(".weather-status");
+      if (statusElem) statusElem.textContent = "Unable to fetch weather.";
+    }
+  });
+}
+
+// Trigger search on Enter in the city input field
+const cityInputElem = document.getElementById("cityWeather");
+if (cityInputElem) {
+  cityInputElem.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (cityBtn) cityBtn.click();
+    }
+  });
+}
+
+// Initialize weather with default city
+updateWeather("Pune");
+
+// Update weather card date/time every second
+function updateWeatherDateTime() {
+  const el = document.getElementById("weatherDateTime");
+  if (!el) return;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString();
+  const timeStr = now.toLocaleTimeString();
+  el.textContent = `${dateStr} • ${timeStr}`;
+}
+updateWeatherDateTime();
+setInterval(updateWeatherDateTime, 1000);
+
+
 
 // Add click handler for mobile login button
 const mobileLoginBtn = document.querySelector(".mobile-login-btn");
