@@ -4,7 +4,7 @@ const chatbotInput = document.getElementById("chatbotInput");
 const chatbotMessages = document.getElementById("chatbotMessages");
 
 async function sendMessageToLLM(message) {
-  // Local short-circuit responses (temporary fallback when API/key not available)
+  // Local short-circuit responses (fallback when server is not available)
   const localResponses = {
     "how can i improve my farming techniques":
       "Here are practical steps to improve farming techniques:\n\n1) Test your soil: get soil tested to know nutrient levels and pH so you can apply the right fertilizers and amendments.\n\n2) Choose the right seeds: use improved or hybrid varieties suited to your region and cropping season.\n\n3) Improve water management: adopt drip or sprinkler irrigation where possible, schedule irrigations based on crop needs, and use mulching to reduce evaporation.\n\n4) Crop rotation & diversification: rotate crops to break pest/disease cycles and improve soil fertility; consider intercropping for risk reduction.\n\n5) Integrated pest management: monitor fields, use biological controls and targeted pesticides only when necessary.\n\n6) Nutrient management: apply balanced fertilizers based on soil test results and use organic matter (compost) to improve soil health.\n\n7) Timely operations & good agronomy: sow at the right time, maintain proper plant spacing, and weed control.\n\n8) Record keeping: track inputs, yields, and costs to identify improvements and reduce waste.\n\n9) Use local extension & training: consult agriculture extension services, attend farmer trainings, and join farmer groups to learn best practices.\n\n10) Market & value chain: plan crops based on market demand and explore value-addition to increase income.\n\nIf you want, tell me your crop and location and I can give more specific tips.",
@@ -15,24 +15,31 @@ async function sendMessageToLLM(message) {
   }
 
   const norm = normalizeMsg(message);
-  // direct match
-  if (localResponses[norm]) return localResponses[norm];
-  // loose match for similar phrasing
-  if (norm.includes("improve") && norm.includes("farm"))
-    return localResponses["how can i improve my farming techniques"];
-
-  // Fallback: call backend server (existing behavior)
+  
+  // Try calling the backend server
   try {
     const res = await fetch("http://localhost:3001/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message }),
     });
-    if (!res.ok) throw new Error("API error");
+    
+    if (!res.ok) {
+      throw new Error(`Server error: ${res.status}`);
+    }
+    
     const data = await res.json();
-    return data.reply?.trim() || "No response.";
+    return data.reply?.trim() || "No response from AI.";
   } catch (err) {
-    return "Sorry, I couldn't reach the AI service.";
+    console.error("Server connection error:", err);
+    
+    // Fallback to local responses for common questions
+    if (localResponses[norm]) return localResponses[norm];
+    if (norm.includes("improve") && norm.includes("farm"))
+      return localResponses["how can i improve my farming techniques"];
+    
+    // Ultimate fallback message
+    return "⚠️ Server not running. Please start the server with 'npm start' and refresh this page. (See instructions below)";
   }
 }
 
