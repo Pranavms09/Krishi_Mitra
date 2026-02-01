@@ -64,7 +64,7 @@ if (chatbotForm && chatbotInput && chatbotMessages) {
 }
 // ------- LLM API Key (DEMO ONLY: Do not expose in production) ---------
 const LLM_API_KEY =
-  "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";
+  "AIzaSyCE3FSrjb3QXLckYTy7XNwU9zQqEah_150";
 // ------- Hamburger Menu & Side Menu ---------
 const hamburger = document.getElementById("hamburger");
 const sideMenu = document.getElementById("sideMenu");
@@ -445,4 +445,5 @@ document.getElementById("loginBtn").addEventListener("click", () => {
   // Demo login - in real app, this would connect to backend
   alert("Login functionality - connect to your backend API");
 });
+
 
