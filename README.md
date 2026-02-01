@@ -6,6 +6,31 @@ Krishi Mitra is an agriculture-focused web/UX project that helps farmers make in
 
 ---
 
+## 🚀 Quick Start - Running the AI Chatbot
+
+Your AI chatbot now works with a backend server! Follow these steps:
+
+1. **Install Dependencies** (one-time setup):
+   ```bash
+   npm install
+   ```
+
+2. **Start the Server**:
+   ```bash
+   npm start
+   ```
+
+3. **Open in Browser**:
+   - Go to: `http://localhost:3001/index.html`
+   - Navigate to the "🤖 AI Voice Assistant" section
+   - Start chatting with the AI! 
+
+**Important:** Don't open `index.html` directly. Always access via `http://localhost:3001/index.html` after starting the server.
+
+
+
+---
+
 ## 🚀 Features
 
 ### 📊 Market Prices
